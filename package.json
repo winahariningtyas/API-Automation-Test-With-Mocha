@@ -4,7 +4,7 @@
   "description": "API Automation Test With Mocha",
   "main": "index.js",
   "scripts": {
-    "test-api": "./node_modules/mocha/bin/mocha ./api/test --recursive --reporter mochawesome --reporter-options reportDir=reports/mochawesome/ --timeout 30000",
+    "test-wina-project": "./node_modules/mocha/bin/mocha ./api/test --recursive --reporter mochawesome --reporter-options reportDir=reports/mochawesome/ --timeout 30000",
     "reports": "open 'reports/mochawesome/mochawesome.html'"
   },
   "repository": {

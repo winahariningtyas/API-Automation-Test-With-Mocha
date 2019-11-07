@@ -5,19 +5,21 @@ const
 const testCase = {
     "positive" : {
         "getList" : "As a User, I want to be able to get OMDB Movie list",
-        "getListByYear" : "As a User, I want to be able to get OMDB Movie List By Year"
+        "getListByYear" : "As a User, I want to be able to get OMDB Movie List By Year",
+        "getListByType" : "As a User, I want to be able to get OMDB Movie List only following in type series, movie and episode"
     },
     "negative" : {
         "noSearch" : "As a User, I should got error message when I send request without key of search",
         "invalidApiKey" : "As a User, I should got error 401 when I send request with invalid API Key",
-        "noApiKey" : "As a User, I should got error message when I send request without API Key Params"
+        "noApiKey" : "As a User, I should got error message when I send request without API Key Params",
+        "invalidTypeMovie" : "As a User, I should got status code 200 but response is false"
     }
 }
 
 describe(`OMDB Movie List`, () => {
     const
         apiKey = '480ff1',
-        invalidApiKey = 'loveeehehe',
+        invalidApiKey = '19asx99',
         keySearch = 'love',
         year = '2011';
 
@@ -51,4 +53,28 @@ describe(`OMDB Movie List`, () => {
             const response = await page.getMovieListSearchByYear(apiKey, keySearch, 'xxx');
             assert(response.status).to.equal(200);
          })
+
+        it(`@get ${testCase.positive.getListByType}`, async() => {
+            const response = await page.getMovieListSearchByType(apiKey, keySearch, 'episode');
+            assert(response.status).to.equal(200);
+        })
+
+        it(`@get ${testCase.positive.getListByType}`, async() => {
+            const response = await page.getMovieListSearchByType(apiKey, keySearch, 'movie');
+            assert(response.status).to.equal(200);
+        })
+
+        it(`@get ${testCase.positive.getListByType}`, async() => {
+            const response = await page.getMovieListSearchByType(apiKey, keySearch, 'series');
+            assert(response.status).to.equal(200);
+        })
+
+        it(`@get ${testCase.positive.getListByType}`, async() => {
+            const response = await page.getMovieListSearchByType(apiKey, keySearch, 'cinema');
+            assert(response.status).to.equal(200);
+            assert(response.body.Response).to.equal('False');
+            assert(response.body.Error).to.equal('Movie not found!');
+        })
+
+
 })
