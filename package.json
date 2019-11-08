@@ -4,8 +4,7 @@
   "description": "API Automation Test With Mocha",
   "main": "index.js",
   "scripts": {
-    "test-wina-project": "./node_modules/mocha/bin/mocha ./api/test --recursive --reporter mochawesome --reporter-options reportDir=reports/mochawesome/ --timeout 30000",
-    "reports": "open 'reports/mochawesome/mochawesome.html'"
+    "test-wina-project": "./node_modules/mocha/bin/mocha ./api/test --reporter mochawesome --timeout 30000"
   },
   "repository": {
     "type": "git",
@@ -17,11 +16,11 @@
     "url": "https://github.com/winahariningtyas/API-Automation-Test-With-Mocha/issues"
   },
   "dependencies": {
-    "chai": "^4.1.2",
-    "dotenv": "^7.0.0",
-    "mocha": "^5.2.0",
-    "mochawesome": "^3.0.2",
-    "supertest": "^3.1.0"
+    "chai": "^4.2.0",
+    "dotenv": "^8.2.0",
+    "mocha": "^6.2.2",
+    "mochawesome": "^3.0.3",
+    "supertest": "^4.0.2"
   },
   "homepage": "https://github.com/winahariningtyas/API-Automation-Test-With-Mocha#readme"
 }

@@ -2,17 +2,19 @@ const
     assert = require('chai').expect,
     page = require('../page/list-movie-page.js');
 
-const testCase = {
+const testCase =
+    {
     "positive" : {
-        "getList" : "As a User, I want to be able to get OMDB Movie list",
-        "getListByYear" : "As a User, I want to be able to get OMDB Movie List By Year",
-        "getListByType" : "As a User, I want to be able to get OMDB Movie List only following in type series, movie and episode"
+        "getList" : "User want to get OMDB Movie list",
+        "getListByYear" : "User want to get OMDB Movie List By Year",
+        "getListByType" : "User want to get OMDB Movie List only following in type series",
+        "getListByPlot" : "User want to get OMDB Movie List By Plot"
     },
     "negative" : {
-        "noSearch" : "As a User, I should got error message when I send request without key of search",
-        "invalidApiKey" : "As a User, I should got error 401 when I send request with invalid API Key",
-        "noApiKey" : "As a User, I should got error message when I send request without API Key Params",
-        "invalidTypeMovie" : "As a User, I should got status code 200 but response is false"
+        "noSearch" : "User should got error message when User send request without key of search",
+        "invalidApiKey" : "User should got error 401 when User send request with invalid API Key",
+        "noApiKey" : "User should got error message when User send request without API Key Params",
+        "invalidTypeMovie" : "User should got status code 200 but response is false"
     }
 }
 
@@ -25,6 +27,36 @@ describe(`OMDB Movie List`, () => {
 
         it(`@get ${testCase.positive.getList}`, async() => {
             const response = await page.getMovieListSearch(apiKey, keySearch);
+            assert(response.status).to.equal(200);
+        }),
+
+        it(`@get ${testCase.positive.getListByYear}`, async() => {
+            const response = await page.getMovieListSearchByYear(apiKey, keySearch, year);
+            assert(response.status).to.equal(200);
+         }),
+
+        it(`@get ${testCase.positive.getListByType}`, async() => {
+            const response = await page.getMovieListSearchByType(apiKey, keySearch, 'episode');
+            assert(response.status).to.equal(200);
+        }),
+
+        it(`@get ${testCase.positive.getListByType}`, async() => {
+            const response = await page.getMovieListSearchByType(apiKey, keySearch, 'movie');
+            assert(response.status).to.equal(200);
+        }),
+
+        it(`@get ${testCase.positive.getListByType}`, async() => {
+            const response = await page.getMovieListSearchByType(apiKey, keySearch, 'series');
+            assert(response.status).to.equal(200);
+        }),
+
+        it(`@get ${testCase.positive.getListByPlot}`, async() => {
+            const response = await page.getMovieListSearchByPlot(apiKey, keySearch, 'short');
+            assert(response.status).to.equal(200);
+        }),
+
+        it(`@get ${testCase.positive.getListByPlot}`, async() => {
+            const response = await page.getMovieListSearchByPlot(apiKey, keySearch, 'full');
             assert(response.status).to.equal(200);
         }),
 
@@ -42,39 +74,17 @@ describe(`OMDB Movie List`, () => {
             assert(response.body.Error).to.equal('Invalid API key!');
         }),
 
-        it(`@get ${testCase.negative.invalidApiKey}`, async() => {
-            const response = await page.getMovieListSearch('', keySearch);
+         it(`@get ${testCase.negative.noApiKey}`, async() => {
+            const response = await page.getMovieListNoAPIKey(keySearch);
             assert(response.status).to.equal(401, response.body.Error);
             assert(response.body.Response).to.equal('False');
             assert(response.body.Error).to.equal('No API key provided.');
         }),
 
-        it(`@get ${testCase.positive.getListByYear}`, async() => {
-            const response = await page.getMovieListSearchByYear(apiKey, keySearch, 'xxx');
-            assert(response.status).to.equal(200);
-         })
-
-        it(`@get ${testCase.positive.getListByType}`, async() => {
-            const response = await page.getMovieListSearchByType(apiKey, keySearch, 'episode');
-            assert(response.status).to.equal(200);
-        })
-
-        it(`@get ${testCase.positive.getListByType}`, async() => {
-            const response = await page.getMovieListSearchByType(apiKey, keySearch, 'movie');
-            assert(response.status).to.equal(200);
-        })
-
-        it(`@get ${testCase.positive.getListByType}`, async() => {
-            const response = await page.getMovieListSearchByType(apiKey, keySearch, 'series');
-            assert(response.status).to.equal(200);
-        })
-
-        it(`@get ${testCase.positive.getListByType}`, async() => {
+        it(`@get ${testCase.negative.invalidTypeMovie}`, async() => {
             const response = await page.getMovieListSearchByType(apiKey, keySearch, 'cinema');
             assert(response.status).to.equal(200);
             assert(response.body.Response).to.equal('False');
             assert(response.body.Error).to.equal('Movie not found!');
         })
-
-
 })
